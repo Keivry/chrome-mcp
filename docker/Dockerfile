@@ -18,7 +18,7 @@ EXPOSE 9222
 # Chrome 只绑定 127.0.0.1（--remote-debugging-address=0.0.0.0 在 v149 被忽略）
 # 所以用 Node.js TCP proxy 把流量从 0.0.0.0:9222 转发到 127.0.0.1:9222
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
-  CMD bash -c 'echo >/dev/tcp/127.0.0.1/9222' 2>/dev/null
+  CMD bash -c 'echo >/dev/tcp/127.0.0.1/9223' 2>/dev/null
 
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
