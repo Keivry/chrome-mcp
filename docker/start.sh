@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+# 清理上一个实例的 Chrome profile 锁文件
+# 容器重启时 SingletonLock/SingletonCookie/SingletonSocket 会残留
+rm -f /data/chrome-profile/SingletonLock /data/chrome-profile/SingletonCookie /data/chrome-profile/SingletonSocket
+
 # Chrome v149+ 默认只监听 127.0.0.1:9222（--remote-debugging-address 被忽略）
 # 用 socat 将 0.0.0.0:9222 转发到 127.0.0.1:9222，使 docker-proxy 能正常工作
 CHROME_ARGS=(
