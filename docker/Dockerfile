@@ -14,19 +14,12 @@ RUN mkdir -p /data/chrome-profile
 
 EXPOSE 9222
 
+# Chrome 只绑定 127.0.0.1（--remote-debugging-address=0.0.0.0 在 v149 被忽略）
+# 所以用 Node.js TCP proxy 把流量从 0.0.0.0:9222 转发到 127.0.0.1:9222
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
   CMD bash -c 'echo >/dev/tcp/127.0.0.1/9222' 2>/dev/null
 
-CMD ["chromium", \
-  "--headless=new", \
-  "--no-sandbox", \
-  "--disable-gpu", \
-  "--disable-dev-shm-usage", \
-  "--remote-debugging-port=9222", \
-  "--remote-debugging-address=0.0.0.0", \
-  "--user-data-dir=/data/chrome-profile", \
-  "--window-size=1920,1080", \
-  "--no-first-run", \
-  "--disable-background-networking", \
-  "--disable-default-apps", \
-  "--disable-sync"]
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+CMD ["/usr/local/bin/start.sh"]
