@@ -1,0 +1,21 @@
+services:
+  chrome:
+    build: .
+    image: ghcr.io/keivry/chrome-mcp:latest
+    container_name: chrome-mcp
+    restart: unless-stopped
+    ports:
+      - "9222:9222"
+    volumes:
+      - chrome-profile:/data/chrome-profile
+    environment:
+      - TZ=Asia/Shanghai
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  chrome-profile:
+    name: chrome-mcp-profile
