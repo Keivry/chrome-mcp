@@ -1,9 +1,10 @@
 FROM node:22-bookworm-slim
 
-# 安装 Chromium 和依赖
+# 安装 Chromium、socat（端口转发）和依赖
 RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium \
     chromium-sandbox \
+    socat \
     fonts-noto-cjk \
     fonts-noto-color-emoji \
     ca-certificates \
